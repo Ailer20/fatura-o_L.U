@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Resultado da Fatoração LU</title>
+</head>
+<body>
+    <h1>Fatoração LU</h1>
+    <h2>Matriz A</h2>
+    <pre>
+        {% for row in A %}
+            {{ row|join:", " }}
+        {% endfor %}
+    </pre>
+
+    <h2>Matriz L</h2>
+    <pre>
+        {% for row in L %}
+            {{ row|join:", " }}
+        {% endfor %}
+    </pre>
+
+    <h2>Matriz U</h2>
+    <pre>
+        {% for row in U %}
+            {{ row|join:", " }}
+        {% endfor %}
+    </pre>
+
+    <a href="{% url 'home' %}">Voltar</a>
+</body>
+</html>
