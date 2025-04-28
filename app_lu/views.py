@@ -8,38 +8,56 @@ def safe_float_conversion(value):
     try:
         return float(value)
     except ValueError:
-        return 0.0  # Ou outro valor padrão, dependendo da sua lógica
+        return 0.0
 
-# Função para converter decimal para fração, mas manter números inteiros
+# Função para converter decimal para fração
 def to_fraction(value):
-    if value.is_integer():
-        return str(int(value))  # Retorna como número inteiro
+    if float(value).is_integer():
+        return str(int(value))
     else:
         return str(Fraction(value).limit_denominator(10000))
 
-# Função que realiza a decomposição LU manualmente
+# Função que realiza a decomposição LU passo a passo
 def lu_step_by_step(A):
-    n = A.shape[0]  # Número de linhas
+    n = A.shape[0]
     L = np.zeros_like(A)
     U = np.zeros_like(A)
+    passos = []
 
-    # Fatoração LU
     for i in range(n):
         # Preencher a linha da matriz U
         for j in range(i, n):
-            U[i, j] = A[i, j] - np.dot(L[i, :i], U[:i, j])
+            soma = sum(L[i, k] * U[k, j] for k in range(i))
+            U[i, j] = A[i, j] - soma
+
+            explicacao = f"""
+            \\[
+            U_{{{i+1},{j+1}}} = {A[i,j]} - ({' + '.join([f'{to_fraction(L[i,k])} \\times {to_fraction(U[k,j])}' for k in range(i)]) if i > 0 else '0'}) = {to_fraction(U[i,j])}
+            \\]
+            """
+            passos.append(explicacao)
 
         # Preencher a coluna da matriz L
-        L[i, i] = 1  # A diagonal de L é sempre 1
-        for j in range(i + 1, n):
-            if U[i, i] != 0:
-                L[j, i] = (A[j, i] - np.dot(L[j, :i], U[:i, i])) / U[i, i]
-            else:
-                raise ValueError("A matriz A não é invertível, portanto a decomposição LU não é possível.")
+        L[i, i] = 1
+        passos.append(f"\\[ L_{{{i+1},{i+1}}} = 1 \\]")
 
-    return L, U
+        for j in range(i+1, n):
+            soma = sum(L[j, k] * U[k, i] for k in range(i))
+            if U[i, i] == 0:
+                raise ValueError("Matriz singular: fatoração LU impossível.")
+            L[j, i] = (A[j, i] - soma) / U[i, i]
 
-# Função principal para o request e processamento da matriz
+            explicacao = f"""
+            \\[
+            L_{{{j+1},{i+1}}} = \\frac{{{A[j,i]} - ({' + '.join([f'{to_fraction(L[j,k])} \\times {to_fraction(U[k,i])}' for k in range(i)]) if i > 0 else '0'})}}{{{to_fraction(U[i,i])}}} = {to_fraction(L[j,i])}
+            \\]
+            """
+            passos.append(explicacao)
+
+    return L, U, passos
+
+
+# Função principal para o request
 def home(request):
     if request.method == 'POST':
         form = MatrixForm(request.POST)
@@ -48,10 +66,8 @@ def home(request):
             colunas = form.cleaned_data['colunas']
             matriz_texto = form.cleaned_data['matriz']
 
-            # Processar matriz
             linhas_texto = matriz_texto.strip().split(';')
 
-            # Verificar se o número de linhas e colunas coincide com os dados inseridos
             if len(linhas_texto) != linhas:
                 form.add_error('matriz', 'O número de linhas não corresponde ao valor informado.')
             else:
@@ -62,30 +78,24 @@ def home(request):
                         form.add_error('matriz', 'O número de colunas não corresponde ao valor informado.')
                     matriz.append([safe_float_conversion(x) for x in valores])
 
-                # Converter a matriz para um array numpy
                 A = np.array(matriz)
 
-                # Verificar se a matriz A é quadrada
                 if A.shape[0] != A.shape[1]:
                     form.add_error('matriz', 'A matriz deve ser quadrada para realizar a fatoração LU.')
                     return render(request, 'app_lu/home.html', {'form': form})
 
-                # Fazer a fatoração LU passo a passo
-                L, U = lu_step_by_step(A)
+                L, U, passos = lu_step_by_step(A)
 
-                # Ajustar para garantir que as matrizes sejam corretas
-                L_fixed = np.round(L, decimals=6)  # Ajuste para mostrar os valores corretos com 6 casas decimais
-                U_fixed = np.round(U, decimals=6)
-
-                # Converter as matrizes para frações
+                # Converter para frações
                 A_frac = [[to_fraction(x) for x in row] for row in A]
-                L_frac = [[to_fraction(x) for x in row] for row in L_fixed]
-                U_frac = [[to_fraction(x) for x in row] for row in U_fixed]
+                L_frac = [[to_fraction(x) for x in row] for row in np.round(L, decimals=6)]
+                U_frac = [[to_fraction(x) for x in row] for row in np.round(U, decimals=6)]
 
                 return render(request, 'app_lu/resultado.html', {
                     'A': A_frac,
                     'L': L_frac,
-                    'U': U_frac
+                    'U': U_frac,
+                    'passos': passos
                 })
 
     else:

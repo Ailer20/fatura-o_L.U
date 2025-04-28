@@ -2,32 +2,51 @@
 <html lang="pt-br">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Resultado da Fatoração LU</title>
+    <!-- MathJax para renderizar fórmulas -->
+    <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
 </head>
 <body>
-    <h1>Fatoração LU</h1>
-    <h2>Matriz A</h2>
-    <pre>
+    <h1>Matriz A</h1>
+    <table border="1">
         {% for row in A %}
-            {{ row|join:", " }}
+        <tr>
+            {% for val in row %}
+            <td>{{ val }}</td>
+            {% endfor %}
+        </tr>
         {% endfor %}
-    </pre>
+    </table>
 
-    <h2>Matriz L</h2>
-    <pre>
+    <h1>Matriz L</h1>
+    <table border="1">
         {% for row in L %}
-            {{ row|join:", " }}
+        <tr>
+            {% for val in row %}
+            <td>{{ val }}</td>
+            {% endfor %}
+        </tr>
         {% endfor %}
-    </pre>
+    </table>
 
-    <h2>Matriz U</h2>
-    <pre>
+    <h1>Matriz U</h1>
+    <table border="1">
         {% for row in U %}
-            {{ row|join:", " }}
+        <tr>
+            {% for val in row %}
+            <td>{{ val }}</td>
+            {% endfor %}
+        </tr>
         {% endfor %}
-    </pre>
+    </table>
 
-    <a href="{% url 'home' %}">Voltar</a>
+    <h1>Passos da Decomposição LU</h1>
+    <div>
+        {% for passo in passos %}
+            <div>{{ passo|safe }}</div>  <!-- MUITO IMPORTANTE usar "|safe" para o LaTeX ser interpretado -->
+        {% endfor %}
+    </div>
+
 </body>
 </html>
