@@ -2,7 +2,7 @@ body {
     font-family: Arial, sans-serif;
     margin: 0;
     padding: 30px;
-    background: linear-gradient(135deg, #6a11cb 0%, #2575fc 100%);
+    background: linear-gradient(135deg, #ffffff 0%, #b3b3b3 100%);
     display: flex;
     justify-content: center;
 }
@@ -10,7 +10,7 @@ body {
 .card {
     max-width: 1200px;
     margin: auto;
-    background: #ffffff;
+    background: linear-gradient(135deg, #2962ff 0%, #00c4ff 100%);
     padding: 30px;
     border-radius: 12px;
     box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
