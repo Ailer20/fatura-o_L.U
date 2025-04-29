@@ -3,50 +3,88 @@
 <head>
     <meta charset="UTF-8">
     <title>Resultado da Fatoração LU</title>
-    <!-- MathJax para renderizar fórmulas -->
+
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'app_lu/css/resultado.css' %}">
+
+    <!-- MathJax para fórmulas LaTeX -->
     <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
-    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script id="MathJax-script" async 
+            src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
 </head>
 <body>
-    <h1>Matriz A</h1>
-    <table border="1">
-        {% for row in A %}
-        <tr>
-            {% for val in row %}
-            <td>{{ val }}</td>
-            {% endfor %}
-        </tr>
-        {% endfor %}
-    </table>
+<div class="card">
 
-    <h1>Matriz L</h1>
-    <table border="1">
-        {% for row in L %}
-        <tr>
-            {% for val in row %}
-            <td>{{ val }}</td>
-            {% endfor %}
-        </tr>
-        {% endfor %}
-    </table>
+    <!-- Linha das matrizes A, L e U -->
+    <div class="matrix-row">
+        <div class="matrix-box">
+            <h2>Matriz A (Original)</h2>
+            <table class="matrix-table">
+                {% for row in A %}
+                <tr>
+                    {% for val in row %}
+                    <td>{{ val }}</td>
+                    {% endfor %}
+                </tr>
+                {% endfor %}
+            </table>
+        </div>
 
-    <h1>Matriz U</h1>
-    <table border="1">
-        {% for row in U %}
-        <tr>
-            {% for val in row %}
-            <td>{{ val }}</td>
-            {% endfor %}
-        </tr>
-        {% endfor %}
-    </table>
+        <div class="matrix-box">
+            <h2>Matriz L</h2>
+            <table class="matrix-table">
+                {% for row in L %}
+                <tr>
+                    {% for val in row %}
+                    <td>{{ val }}</td>
+                    {% endfor %}
+                </tr>
+                {% endfor %}
+            </table>
+        </div>
 
-    <h1>Passos da Decomposição LU</h1>
-    <div>
-        {% for passo in passos %}
-            <div>{{ passo|safe }}</div>  <!-- MUITO IMPORTANTE usar "|safe" para o LaTeX ser interpretado -->
-        {% endfor %}
+        <div class="matrix-box">
+            <h2>Matriz U</h2>
+            <table class="matrix-table">
+                {% for row in U %}
+                <tr>
+                    {% for val in row %}
+                    <td>{{ val }}</td>
+                    {% endfor %}
+                </tr>
+                {% endfor %}
+            </table>
+        </div>
     </div>
+
+    <!-- Linha dos passos de L e U -->
+    <div class="steps-row">
+        <div class="steps-box">
+            <h2>Passos da Matriz L</h2>
+            {% for passo in passos_L %}
+            <div class="passo-item">{{ passo|safe }}</div>
+            {% endfor %}
+        </div>
+
+        <div class="steps-box">
+            <h2>Passos da Matriz U</h2>
+            {% for passo in passos_U %}
+            <div class="passo-item">{{ passo|safe }}</div>
+            {% endfor %}
+        </div>
+    </div>
+
+</div>
+<script>
+    window.addEventListener('DOMContentLoaded', () => {
+        const passos = document.querySelectorAll('.passo-item');
+        passos.forEach((el, i) => {
+            setTimeout(() => {
+                el.classList.add('show');
+            }, i * 150); // efeito em cascata
+        });
+    });
+</script>
 
 </body>
 </html>

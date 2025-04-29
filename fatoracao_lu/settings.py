@@ -29,7 +29,15 @@ INSTALLED_APPS = [
 
 ALLOWED_HOSTS = []
 
+DEBUG = True
+
 STATIC_URL = '/static/'
+
+# Isso só é necessário se você quiser organizar melhor os arquivos no modo dev:
+STATICFILES_DIRS = [
+    BASE_DIR / "static",
+]
+
 
 DATABASES = {
     'default': {
@@ -40,7 +48,6 @@ DATABASES = {
 
 
 
-DEBUG = True
 
 ROOT_URLCONF = 'fatoracao_lu.urls'
 
