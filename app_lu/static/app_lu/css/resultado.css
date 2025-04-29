@@ -1,79 +1,63 @@
 body {
     font-family: Arial, sans-serif;
     margin: 0;
-    padding: 30px;
+    padding: 102px;
     background: linear-gradient(135deg, #ffffff 0%, #b3b3b3 100%);
     display: flex;
     justify-content: center;
 }
 
 .card {
-    max-width: 1200px;
-    margin: auto;
     background: linear-gradient(135deg, #2962ff 0%, #00c4ff 100%);
-    padding: 30px;
-    border-radius: 12px;
-    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
-}
-
-/* Linha das matrizes */
-.matrix-row {
-    display: flex;
-    justify-content: space-between;
-    gap: 20px;
-    margin-bottom: 30px;
-}
-
-.matrix-box {
-    flex: 1;
-    background-color: #e9f0fa;
+    box-shadow: 0px 15px 40px rgba(6, 0, 0, 0.733);
     padding: 20px;
-    border-radius: 10px;
-    text-align: center;
-    box-shadow: 0 3px 10px rgba(0, 0, 0, 0.05);
+    border-radius: 20px;
+    max-width: 1400px;
+    margin: auto;
+    font-family: Arial, sans-serif;
 }
 
-.matrix-box h2 {
-    margin-bottom: 15px;
+.main-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 20px;
+}
+
+.matriz-coluna {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.matrix-box, .steps-box {
+    padding: 15px;
+    background-color: #f9f9f9;
+    border: 1px solid #ccc;
+    border-radius: 20px;
 }
 
 .matrix-table {
     width: 100%;
     border-collapse: collapse;
+    text-align: center;
+    border-radius: 20px;
 }
 
 .matrix-table td {
-    border: 1px solid #ccc;
-    padding: 8px;
-    text-align: center;
-    font-weight: bold;
-}
-
-/* Linha dos passos */
-.steps-row {
-    display: flex;
-    justify-content: space-between;
-    gap: 20px;
-}
-
-.steps-box {
-    flex: 1;
-    background-color: #f4f7fd;
-    padding: 20px;
-    border-radius: 10px;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
-}
-
-.steps-box h2 {
-    margin-bottom: 15px;
+    border: 1px solid #00c4ff;
+    padding: 6px;
 }
 
 .passo-item {
-    background-color: #e2ebfb;
-    padding: 10px;
-    margin-bottom: 8px;
-    border-left: 5px solid #4169e1;
-    border-radius: 4px;
+    opacity: 0;
+    transform: translateX(10px);
+    transition: all 0.4s ease;
+    margin-bottom: 6px;
+}
+
+.passo-item.show {
+    opacity: 1;
+    transform: translateX(0);
 }
 
 
