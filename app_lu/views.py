@@ -102,8 +102,10 @@ def home(request):
 
                 # Converter para frações
                 A_frac = [[to_fraction(x) for x in row] for row in A]
-                L_frac = [[to_fraction(x) for x in row] for row in np.round(L, decimals=6)]
-                U_frac = [[to_fraction(x) for x in row] for row in np.round(U, decimals=6)]
+                L_frac = [[to_fraction(np.round(x, 10)) for x in row] for row in L]
+                U_frac = [[to_fraction(np.round(x, 10)) for x in row] for row in U]
+
+
 
                 return render(request, 'app_lu/resultado.html', {
                     'A': A_frac,
