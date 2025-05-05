@@ -113,3 +113,20 @@ body {
     transform: scale(1);
 }
 
+
+
+/* Scrollbar global para navegadores baseados em WebKit (Chrome, Edge, etc.) */
+::-webkit-scrollbar {
+    width: 8px; /* Largura do scroll */
+    scrollbar-width: thin; /* Scroll mais fino (para navegadores compatíveis como Firefox) */
+    scrollbar-color: #2962ff #00c4ff; /* Cor da barra e do fundo */
+}
+
+::-webkit-scrollbar-thumb {
+    background-color: #00bfff; /* Cor da "bolinha" do scroll */
+    border-radius: 4px; /* Borda arredondada */
+}
+
+::-webkit-scrollbar-track {
+    background-color: #5900ff; /* Cor do fundo da barra */
+}

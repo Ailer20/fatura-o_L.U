@@ -78,6 +78,23 @@
             <div class="passo-item">{{ passo|safe }}</div>
             {% endfor %}
         </div>
+        
+        <!-- Coluna 4: Resolvendo Ly = b -->
+        <div class="steps-box">
+            <h2>Resolvendo Ly = b</h2>
+            {% for passo in passos_y %}
+            <div class="passo-item">{{ passo|safe }}</div>
+            {% endfor %}
+        </div>
+
+        <!-- Coluna 5: Resolvendo Ux = y -->
+        <div class="steps-box">
+            <h2>Resolvendo Ux = y</h2>
+            {% for passo in passos_x %}
+            <div class="passo-item">{{ passo|safe }}</div>
+            {% endfor %}
+        </div>
+
 
     </div>
 </div>
